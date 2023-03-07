@@ -9,5 +9,5 @@ Student Email : akolodeznikova@myseneca.ca
 Course/Section: NCC
 
 ## Project URLs
-GitHub Repo   : https://github.com/<repo_name>/
+GitHub Repo   : https://github.com/arilloid/web322-akolodeznikova
 Cyclic URL    : https://electric-blue-eagle-coat.cyclic.app/
