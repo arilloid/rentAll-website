@@ -1,0 +1,64 @@
+
+    <!-- hero -->
+        <div class="row hero">
+            <div class="col-12 color-overlay d-flex justify-content-center align-items-center">
+                <h1>Find a home away from Home</h1>
+            </div>
+        </div>
+        <!-- content -->
+        <div class="row content pt-5 pb-5">
+            <div class="col-12 col-md-6 col-lg-3 mb-2 mt-2">
+                <div class="card h-100">
+                    <img class="card-img-top" src="/images/icon-images/icon-1.png" alt="icon">
+                    <div class="card-body">
+                        <h5>Make a booking now</h5>
+                        <p>Book the property you are interested in</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-2 mt-2">
+                <div class="card h-100">
+                    <img class="card-img-top" src="/images/icon-images/icon-2.png" alt="icon">
+                    <div class="card-body">
+                        <h5>All types of properties</h5>
+                        <p>We have everything from beach houses to winter cabins</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-2 mt-2">
+                <div class="card h-100">
+                    <img class="card-img-top" src="/images/icon-images/icon-3.png" alt="icon">
+                    <div class="card-body">
+                        <h5>All budgets friendly</h5>
+                        <p>There is something for every wallet</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-2 mt-2">
+                <div class="card h-100">
+                    <img class="card-img-top" src="/images/icon-images/icon-4.png" alt="icon">
+                    <div class="card-body">
+                        <h5>Contact us 24/7</h5>
+                        <p>Our customer team is always ready to help you</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row featured pt-5 pb-5">
+            <div class="col-12">
+                <div class="row">
+                    <h4>Explore Beautiful Property</h4>
+                </div>
+                <br>
+                <div class="row">
+                    {{#each rentals}}
+                        <div class="col-12 col-md-6 col-lg-4 mb-4">
+                            {{>rental}}
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+  
+   
+   

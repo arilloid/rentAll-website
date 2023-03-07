@@ -1,0 +1,264 @@
+/* -- general styling -- */
+/*************************/
+:root {
+    --background-color: #f5e6d4;
+    --br-light: #97643fbe;
+    --br-shadow: #97643f65;
+    --bg: #97643fd2;
+}
+
+/* -- general styling -- */
+/*************************/
+body {
+    margin: 0;
+    color: #97643f;
+    font-family: 'Poppins', sans-serif, "Segoe UI", Roboto, 
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    background-color: var(--background-color);
+}
+
+p {
+    color: var(--br-light);
+}
+
+ul {
+    list-style: none;
+    padding-left: 0.5vw;
+}
+li a {
+    text-align: center;
+    text-decoration: none;
+    color: var(--br-light) !important;
+}
+li a:hover {
+    color: #724e33 !important;
+}
+
+i {
+    color: var(--br-light);
+}
+i:hover {
+    color: #724e33;
+}
+
+.card {
+    border-color:var(--br-light);
+    border-radius: 1vw;
+    overflow: hidden;
+    transition: 1s ease;
+}
+.card:hover {
+    transform: scale(1.03);
+}
+.card h5 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* -- navbar styling -- */
+/************************/
+.navbar {
+    background-color: var(--background-color);
+    box-shadow: 0 0.25vw 0.5vw 0 var(--br-shadow)
+}
+a.nav-link {
+    margin-right: 0.5vw;
+}
+.navbar-toggler {
+    border-color: var(--br-light)!important;
+}
+
+/* -- footer styling -- */
+/************************/
+.footer {
+    color: var(--br-light);
+    background-color: var(--background-color);
+    box-shadow: 0.25vw 0vw 0.5vw 0vw var(--br-shadow);
+}
+.footer i {
+    margin-right: 1.5vw;
+}
+.footer h5 {
+    border-bottom: solid 2px var(--br-light);
+    margin-bottom: 1.3vw;
+}
+
+
+/* -- adding adaptivity with media queries -- */
+/**********************************************/
+@media (max-width: 576px) {
+    .footer i {
+        margin-right: 5vw;
+    }
+}
+
+/* -- home page styling -- */
+/***************************/
+
+/* -- hero styling -- */
+/**********************/
+.hero {
+    background-image: url('/images/apartment.jpg');
+    background-size: cover;
+    min-height: 60vh;
+    position: relative;
+    color: white;
+    border-radius: 0 0 2vw 2vw;
+}
+.hero h1 {
+    font-size: 3.5vw;
+    font-family: 'Cormorant', serif;
+}
+.color-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #97643f4d;
+    border-radius: 0 0 2.5vw 2.5vw;
+    box-shadow: 0 0.25vw 0.5vw 0 var(--br-shadow);
+}
+
+/* -- content styling -- */
+/*************************/
+.content .card {
+    border-radius: 2.5vw;
+}
+.content .card:hover {
+    transform: none;
+}
+.content .card  img {
+    max-width: 10vw;
+    margin-top: 1vw;
+}
+.content h5 {
+    border-bottom: solid 2px #97643f4f;
+}
+
+/* -- featured rentals styling -- */
+/**********************************/
+.featured {
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 0 3.5vw;
+    box-shadow: 0.25vw 0vw 0.5vw 0vw var(--br-shadow);
+}
+.featured h4 {
+    margin-bottom: 0;
+    margin-left: 3.2vw;
+    color: var(--bg);
+}
+.featured .card-img-top {
+    overflow: hidden;
+}
+
+/* -- adding adaptivity with media queries -- */
+/**********************************************/
+@media (max-width: 768px) {
+    .content .card  img {
+        max-width: 15vw;
+    }
+}
+@media (max-width: 576px) {
+    .hero {
+        min-height: 40vh;
+    }
+    .hero h1 {
+        font-size: 4.3vw;
+    }
+    .content .card {
+        background-color: var(--background-color);
+        border: 0;
+    }
+    .content .card  img {
+        max-width: 20vw;
+    }
+}
+
+/* -- rentals page styling -- */
+/******************************/
+.rentals {
+    box-shadow: 0.25vw 0 0.5vw 0 var(--br-shadow);
+    background-color: rgba(255, 255, 255, 0.829);
+    padding: 0 15vw;
+    color: var(--bg);
+}
+.rentals h4 {
+    text-decoration: underline;
+    margin-bottom: 0;
+    margin-left: 3.2vw;
+}
+.rent-title h3 {
+    text-align: center;
+}
+.rent-title {
+    background-color: white;
+}
+.rent-title .col {
+    background-color: #f5e6d479;
+}
+
+
+/* -- adding adaptivity with media queries -- */
+/**********************************************/
+@media (max-width: 576px) {
+    .rentals {
+        padding: 0 2vw;
+    }
+    .rentals .card {
+        border-radius: 4vw;
+    }
+    .rentals .card-img-top {
+        border-radius: 4vw 4vw 0 0;
+    }
+}
+
+/* -- form styling -- */
+/**********************/
+input::placeholder {
+    color: var(--bg) !important;
+    opacity: 1;
+}
+form {
+    border: 1px solid var(--bg);
+    background-color: #97643f1c;
+    border-radius: 2.5vw;
+    padding: 1vw;
+    margin-bottom: 4vw;
+}
+.form {
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 0 20vw;
+    color: var(--bg);
+    text-align: center;
+}
+.form .col h3{
+    padding-top: 4vw;
+}
+.form-control {
+    border: 1px solid var(--bg);
+    color: var(--bg)!important;
+}
+.form-control:focus {
+    background-color: white;
+    border-color: var(--bg);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--br-shadow);
+}
+.btn {
+    background-color: var(--bg);
+    color: white;
+    padding: 0.7vw 5vw;
+    border-radius: 1vw;
+}
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem var(--br-shadow);
+}
+
+
+/* -- adding adaptivity with media queries -- */
+/**********************************************/
+@media (max-width: 576px) {
+    .form {
+        padding: 0 5vw;
+    }
+}
