@@ -54,6 +54,9 @@ app.post("/sign-up", (req, res) => {
     // Validating the input
     let passedValidation = true;
     let validationMessages = {};
+    // email regEX taken from: https://www.w3resource.com/javascript/form/email-validation.php
+    let emailRegEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let passwordRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{"':;?/>.<,])(?=.*[a-zA-Z]).{8,12}$/;
     if (typeof firstName !== "string" || firstName.trim().length === 0) {
         passedValidation = false;
         validationMessages.firstName = "Please enter your first name"; 
@@ -66,9 +69,17 @@ app.post("/sign-up", (req, res) => {
         passedValidation = false;
         validationMessages.email = "Please enter your email"; 
     }
+    else if (!emailRegEx.test(email)) {
+        passedValidation = false;
+        validationMessages.email = "You should enter a valid email address"; 
+    }
     if (typeof password !== "string" || password.trim().length === 0) {
         passedValidation = false;
         validationMessages.password = "Please enter your password"; 
+    }
+    else if (!passwordRegEx.test(password)) {
+        passedValidation = false;
+        validationMessages.password = "Your password should be 8-12 characters long and contain at least one lowercase letter, uppercase letter, number and a symbol"; 
     }
     // If validation is passed, redirect to the Welcome Page / overwise reload
     if(passedValidation) {
@@ -107,7 +118,10 @@ app.post("/log-in", (req, res) => {
         validationMessages.password = "Please enter your password"; 
     }
     // Reloading if validation is not passed
-    if(!passedValidation) {
+    if(passedValidation) {
+        res.send("Success!");
+    }
+    else {
         res.render("log-in", {
             title: "Log-in Page",
             validationMessages,
