@@ -23,6 +23,9 @@ app.engine(".hbs", exphbs.engine({
 }))
 app.set("view engine", ".hbs");
 
+// Setting up body-parser
+app.use(express.urlencoded({extended: false}))
+
 // Making the "assets: folder public
 app.use(express.static(path.join(__dirname, "/assets")));
 
@@ -43,6 +46,16 @@ app.get("/rentals", (req, res) => {
 app.get("/sign-up", (req, res) => {
     res.render("sign-up", {
         title: "Sign-up Page"
+    });
+})
+app.post("/sign-up", (req, res) => {
+    console.log(req.body)
+    const { firstName, lastName, email, password } = req.body;
+    res.redirect(302, "/welcome");
+})
+app.get("/welcome", (req, res) => {
+    res.render("welcome", {
+        title: "Welcome Page"
     });
 })
 app.get("/log-in", (req, res) => {
