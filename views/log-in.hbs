@@ -8,11 +8,17 @@
     <div class="col">
             <form method="post" action="/log-in">
                 <div class="p-2 mt-3">
-                    <input type="text" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Email">
+                    <input type="text" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Email" value="{{values.email}}">
                 </div>
+                {{#if validationMessages.email}}
+                <h6><small>{{validationMessages.email}}</small></h6>
+                {{/if}}
                 <div class="p-2 mt-1">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="{{values.password}}">
                 </div>
+                {{#if validationMessages.password}}
+                <h6><small>{{validationMessages.password}}</small></h6>
+                {{/if}}
                 <button type="submit" class="btn m-3">Submit</button>
             </form>
     </div>

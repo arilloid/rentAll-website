@@ -92,6 +92,29 @@ app.get("/log-in", (req, res) => {
         title: "Log-in Page"
     });
 })
+app.post("/log-in", (req, res) => {
+    console.log(req.body)
+    const { email, password } = req.body;
+    // Validating the input
+    let passedValidation = true;
+    let validationMessages = {};
+    if (typeof email !== "string" || email.trim().length === 0) {
+        passedValidation = false;
+        validationMessages.email = "Please enter your email"; 
+    }
+    if (typeof password !== "string" || password.trim().length === 0) {
+        passedValidation = false;
+        validationMessages.password = "Please enter your password"; 
+    }
+    // Reloading if validation is not passed
+    if(!passedValidation) {
+        res.render("log-in", {
+            title: "Log-in Page",
+            validationMessages,
+            values: req.body
+        });
+    }
+})
 
 // *** DO NOT MODIFY THE LINES BELOW ***
 
