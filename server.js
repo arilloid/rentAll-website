@@ -51,7 +51,36 @@ app.get("/sign-up", (req, res) => {
 app.post("/sign-up", (req, res) => {
     console.log(req.body)
     const { firstName, lastName, email, password } = req.body;
-    res.redirect(302, "/welcome");
+    // Validating the input
+    let passedValidation = true;
+    let validationMessages = {};
+    if (typeof firstName !== "string" || firstName.trim().length === 0) {
+        passedValidation = false;
+        validationMessages.firstName = "Please enter your first name"; 
+    }
+    if (typeof lastName !== "string" || lastName.trim().length === 0) {
+        passedValidation = false;
+        validationMessages.lastName = "Please enter your last name"; 
+    }
+    if (typeof email !== "string" || email.trim().length === 0) {
+        passedValidation = false;
+        validationMessages.email = "Please enter your email"; 
+    }
+    if (typeof password !== "string" || password.trim().length === 0) {
+        passedValidation = false;
+        validationMessages.password = "Please enter your password"; 
+    }
+    // If validation is passed, redirect to the Welcome Page / overwise reload
+    if(passedValidation) {
+        res.redirect(302, "/welcome");
+    }
+    else {
+        res.render("sign-up", {
+            title: "Sign-up Page",
+            validationMessages,
+            values: req.body
+        });
+    }
 })
 app.get("/welcome", (req, res) => {
     res.render("welcome", {

@@ -8,17 +8,29 @@
     <div class="col">
             <form method="post" action="/sign-up">
                 <div class="p-3 pt-4">
-                    <input type="text" class="form-control" id="first-name" placeholder="First Name">
+                    <input type="text" class="form-control" name="firstName" id="first-name" placeholder="First Name" value="{{values.firstName}}">
                 </div>
+                {{#if validationMessages.firstName}}
+                <h6><small>{{validationMessages.firstName}}</small></h6>
+                {{/if}}
                 <div class="p-3">
-                    <input type="text" class="form-control" id="last-name" placeholder="Last Name">
+                    <input type="text" class="form-control" name="lastName" id="last-name" placeholder="Last Name" value="{{values.lastName}}">
                 </div>
+                {{#if validationMessages.lastName}}
+                <h6><small>{{validationMessages.lastName}}</small></h6>
+                {{/if}}
                 <div class="p-3">
-                    <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Email" value="{{values.email}}">
                 </div>
+                {{#if validationMessages.email}}
+                <h6><small>{{validationMessages.email}}</small></h6>
+                {{/if}}
                 <div class="p-3">
-                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="{{values.password}}">
                 </div>
+                {{#if validationMessages.password}}
+                <h6><small>{{validationMessages.password}}</small></h6>
+                {{/if}}
                 <button type="submit" value="Sign-Up" class="btn m-3">Submit</button>
             </form>
     </div>

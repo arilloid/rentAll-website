@@ -254,7 +254,12 @@ form {
 .btn:focus {
     box-shadow: 0 0 0 0.2rem var(--br-shadow);
 }
-
+.form h6 {
+    color: rgba(172, 29, 53, 0.767);
+    text-align: left;
+    margin: 0;
+    padding-left: 2.5vw;
+}
 
 /* -- adding adaptivity with media queries -- */
 /**********************************************/
