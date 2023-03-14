@@ -14,6 +14,10 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const rentalList = require("./models/rentals-db");
 
+// Setting up dotenv
+const dotenv = require("dotenv");
+dotenv.config({path: "./config/keys.env"})
+
 const app = express();
 
 // Configuring handlebars
@@ -83,7 +87,31 @@ app.post("/sign-up", (req, res) => {
     }
     // If validation is passed, redirect to the Welcome Page / overwise reload
     if(passedValidation) {
-        res.redirect(302, "/welcome");
+        const sgMail = require("@sendgrid/mail");
+        sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+        const msg = {
+            to: email,
+            from: "arinak1017@gmail.com",
+            subject: "Registration confirmation",
+            html: `Hello, ${firstName} ${lastName}<br>
+                    <br>
+                    Welcome to RentAll Website!<br>
+                    <br>
+                    All the best,<br>
+                    Arina`
+        }
+        sgMail.send(msg)
+            .then(() => {
+                res.redirect(302, "/welcome");
+            })
+            .catch(err => {
+                console.log(err);
+                res.render("sign-up", {
+                    title: "Sign-up Page",
+                    validationMessages,
+                    values: req.body
+                });
+            });
     }
     else {
         res.render("sign-up", {
