@@ -30,10 +30,13 @@ li a {
     text-decoration: none;
     color: var(--br-light) !important;
 }
-li a:hover {
+li a:not(.name):hover {
     color: #724e33 !important;
 }
-
+.name {
+    text-transform: uppercase;
+    border-left: solid var(--br-light) 2px;
+}
 i {
     color: var(--br-light);
 }
@@ -300,4 +303,13 @@ form {
     width: 100%;
     height: 100%;
     background-color: #694c3996;
+}
+
+/* -- cart page styling -- */
+/******************************/
+.cart, .list {
+    background-color: rgba(255, 255, 255, 0.505);
+    text-align: center;
+    color: var(--br-light);
+    padding: 15vw 0;
 }

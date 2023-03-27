@@ -147,8 +147,7 @@ router.post("/log-in", (req, res) => {
                 bcryptjs.compare(req.body.password, user.password)
                 .then(isMatched => {
                     if(isMatched) {
-                        // Creating a new session by storing the user document (object) to the session.
-                        //req.session.user = user;
+                        req.session.user = user;
                     }
                     else {
                         console.log("Passwords do not match");
@@ -157,7 +156,7 @@ router.post("/log-in", (req, res) => {
                     }
                     // Reloading if validation is not passed
                     if(passedValidation) {
-                        res.send("Success!");
+                        res.redirect(302, "/cart");
                     }
                     else {
                         res.render("general/log-in", {
@@ -187,5 +186,18 @@ router.post("/log-in", (req, res) => {
             console.log(`Error occurred while searching for the user ... ${err}`);
         });
 })
+
+router.get("/cart", (req, res) => {
+    res.render("general/cart", {
+        title: "Cart Page"
+    });
+});
+
+router.get("/logout", (req, res) => {
+    // Clearing the session from memory.
+    req.session.destroy();
+
+    res.redirect(302, "/log-in");
+});
 
 module.exports = router;

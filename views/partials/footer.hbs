@@ -8,8 +8,12 @@
                         <ul>
                             <li><a href="/" class="link">Home</a></li>
                             <li><a href="/rentals" class="link">Rentals</a></li>
-                            <li><a href="/sign-up"class="link">Sign-up</a></li>
-                            <li><a href="/log-in"class="link">Log-in</a></li>
+                            {{#if user}}
+                                <li><a class="nav-link" href="/logout">LOG-OUT</a></li>
+                            {{else}}
+                                <li><a href="/sign-up"class="link">Sign-up</a></li>
+                                <li><a href="/log-in"class="link">Log-in</a></li>
+                            {{/if}}
                         </ul>
                     </div>
                     <div class="col-12 col-md-8 col-lg-7 mb-3">

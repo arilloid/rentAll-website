@@ -27,7 +27,10 @@ app.use(express.static(path.join(__dirname, "/assets")));
 // Configuring handlebars
 app.engine(".hbs", exphbs.engine({
     extname: ".hbs",
-    defaultLayout: "main"
+    defaultLayout: "main",
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+    }
 }))
 
 app.set("view engine", ".hbs");
@@ -43,7 +46,7 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-    //res.locals.user = req.session.user;
+    res.locals.user = req.session.user;
     next();
 });
 
