@@ -19,6 +19,9 @@
                 {{#if validationMessages.password}}
                 <h6><small>{{validationMessages.password}}</small></h6>
                 {{/if}}
+                {{#if validationMessages.auth}}
+                <h6><small>{{validationMessages.auth}}</small></h6>
+                {{/if}}
                 <button type="submit" class="btn m-3">Submit</button>
             </form>
     </div>

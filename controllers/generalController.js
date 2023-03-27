@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel");
 const express = require("express");
+const bcryptjs = require("bcryptjs");
 const router = express.Router();
 const rentalList = require("../models/rentals-db");
 
@@ -9,11 +10,19 @@ router.get("/", (req, res) => {
         title: "Home Page"
     });
 })
+router.get("/welcome", (req, res) => {
+    res.render("general/welcome", {
+        title: "Welcome Page"
+    });
+})
+// *****************************
+// (GET) Route to a sign-up page
 router.get("/sign-up", (req, res) => {
     res.render("general/sign-up", {
         title: "Sign-up Page"
     });
 })
+// (POST) Route to a sign-up page
 router.post("/sign-up", (req, res) => {
     console.log(req.body)
     const { firstName, lastName, email, password } = req.body;
@@ -49,13 +58,13 @@ router.post("/sign-up", (req, res) => {
     }
     // Checking the uniqueness of the entered email
     userModel.find({ email: email})
-        .then((users) => {
+        .then(users => {
             if (users.length > 0) {
                 // email already exists in the database
                 passedValidation = false;
                 validationMessages.email = "This email is already associated with the existing account. Please enter another one."; 
             }
-            // If validation is passed, save user to the database
+            // If validation is passed, saving user to the database and redirecting to welcome page
             if(passedValidation) {
                 const newUser = new userModel({firstName, lastName, email, password});
 
@@ -109,16 +118,13 @@ router.post("/sign-up", (req, res) => {
             console.log(`Error occurred while checking email existence ... ${err}`);
         });
 })
-router.get("/welcome", (req, res) => {
-    res.render("general/welcome", {
-        title: "Welcome Page"
-    });
-})
+// (GET) Route to a log-in page
 router.get("/log-in", (req, res) => {
     res.render("general/log-in", {
         title: "Log-in Page"
     });
 })
+// (POST) Route to a log-in page
 router.post("/log-in", (req, res) => {
     console.log(req.body)
     const { email, password } = req.body;
@@ -133,17 +139,53 @@ router.post("/log-in", (req, res) => {
         passedValidation = false;
         validationMessages.password = "Please enter your password"; 
     }
-    // Reloading if validation is not passed
-    if(passedValidation) {
-        res.send("Success!");
-    }
-    else {
-        res.render("general/log-in", {
-            title: "Log-in Page",
-            validationMessages,
-            values: req.body
+    // Searching MongoDB for a document with matching email address
+    userModel.findOne({ email : email })
+        .then(user => {
+            if(user){
+                // Comparing the password supplied by the user with the one in our document
+                bcryptjs.compare(req.body.password, user.password)
+                .then(isMatched => {
+                    if(isMatched) {
+                        // Creating a new session by storing the user document (object) to the session.
+                        //req.session.user = user;
+                    }
+                    else {
+                        console.log("Passwords do not match");
+                        passedValidation = false;
+                        validationMessages.auth = "You have entered an invalid password."
+                    }
+                    // Reloading if validation is not passed
+                    if(passedValidation) {
+                        res.send("Success!");
+                    }
+                    else {
+                        res.render("general/log-in", {
+                            title: "Log-in Page",
+                            validationMessages,
+                            values: req.body
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log(`Error occurred while searching for the user ... ${err}`);
+                });
+            }
+            else {
+                // User was not found
+                console.log("User not found in the database.");
+                passedValidation = false;
+                validationMessages.auth = "We couldn't find an account associated with the given email address."; 
+                res.render("general/log-in", {
+                    title: "Log-in Page",
+                    validationMessages,
+                    values: req.body
+                });
+            }
+        })
+        .catch((err) => {
+            console.log(`Error occurred while searching for the user ... ${err}`);
         });
-    }
 })
 
 module.exports = router;

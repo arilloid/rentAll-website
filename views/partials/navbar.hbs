@@ -9,15 +9,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/rentals">RENTALS</a>
-              </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sign-up">SIGN-UP</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/log-in">LOG-IN</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="/rentals">RENTALS</a></li>
+            {{#if user}}
+                <li>{{user.firstName}} {{user.lastName}}</li>
+                <li><a class="nav-link" href="/logout"></a></li>
+            {{else}}
+                <li class="nav-item"><a class="nav-link" href="/sign-up">SIGN-UP</a></li>
+                <li class="nav-item"><a class="nav-link" href="/log-in">LOG-IN</a></li>
+            {{/if}}
           </ul>
         </div>
     </nav>

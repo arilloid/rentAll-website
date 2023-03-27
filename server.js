@@ -13,12 +13,16 @@ const path = require("path");
 const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
+const session = require("express-session")
 
 // Setting up dotenv
 const dotenv = require("dotenv");
 dotenv.config({path: "./config/keys.env"})
 
 const app = express();
+
+// Making the "assets: folder public
+app.use(express.static(path.join(__dirname, "/assets")));
 
 // Configuring handlebars
 app.engine(".hbs", exphbs.engine({
@@ -28,11 +32,20 @@ app.engine(".hbs", exphbs.engine({
 
 app.set("view engine", ".hbs");
 
-// Making the "assets: folder public
-app.use(express.static(path.join(__dirname, "/assets")));
-
 // Setting up body-parser
 app.use(express.urlencoded({extended: true}))
+
+// Setting up express-session
+app.use(session({
+    secret : process.env.SESSION_SECRET,
+    resave : false,
+    saveUninitialized: true
+}));
+
+app.use((req, res, next) => {
+    //res.locals.user = req.session.user;
+    next();
+});
 
 // Loading the controllers into express.
 const generalController = require("./controllers/generalController");
