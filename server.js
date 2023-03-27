@@ -12,6 +12,7 @@
 const path = require("path");
 const express = require("express");
 const exphbs = require("express-handlebars");
+const mongoose = require("mongoose");
 
 // Setting up dotenv
 const dotenv = require("dotenv");
@@ -24,10 +25,14 @@ app.engine(".hbs", exphbs.engine({
     extname: ".hbs",
     defaultLayout: "main"
 }))
+
 app.set("view engine", ".hbs");
 
 // Making the "assets: folder public
 app.use(express.static(path.join(__dirname, "/assets")));
+
+// Setting up body-parser
+app.use(express.urlencoded({extended: true}))
 
 // Loading the controllers into express.
 const generalController = require("./controllers/generalController");
@@ -62,7 +67,17 @@ const HTTP_PORT = process.env.PORT || 8080;
 function onHttpStart() {
     console.log("Express http server listening on: " + HTTP_PORT);
 }
-  
-// Listen on port 8080. The default port for http is 80, https is 443. We use 8080 here
-// because sometimes port 80 is in use by other applications on the machine
-app.listen(HTTP_PORT, onHttpStart);
+
+// Connecting to the MongoDB
+mongoose.connect(process.env.MONGO_CONN_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("Connected to the MongoDB database.");
+    // Listen on port 8080. The default port for http is 80, https is 443. We use 8080 here
+    // because sometimes port 80 is in use by other applications on the machine
+    app.listen(HTTP_PORT, onHttpStart);
+}).catch(() => {
+    console.log(`Unable to connect to MongoDB ... ${err}`);
+});
+

@@ -1,9 +1,7 @@
+const userModel = require("../models/userModel");
 const express = require("express");
 const router = express.Router();
 const rentalList = require("../models/rentals-db");
-
-// Setting up body-parser
-router.use(express.urlencoded({extended: false}))
 
 router.get("/", (req, res) => {
     res.render("general/home", {
@@ -51,25 +49,39 @@ router.post("/sign-up", (req, res) => {
     }
     // If validation is passed, redirect to the Welcome Page / overwise reload
     if(passedValidation) {
-        const sgMail = require("@sendgrid/mail");
-        sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
-        const msg = {
-            to: email,
-            from: "arinak1017@gmail.com",
-            subject: "Registration confirmation",
-            html: `Hello, ${firstName} ${lastName}<br>
-                    <br>
-                    Welcome to RentAll Website!<br>
-                    <br>
-                    All the best,<br>
-                    Arina`
-        }
-        sgMail.send(msg)
-            .then(() => {
-                res.redirect(302, "/welcome");
+        const newUser = new userModel({firstName, lastName, email, password});
+
+        newUser.save()
+            .then(userSaved => {
+                console.log(`User ${userSaved.firstName} has been added to the database.`);
+                const sgMail = require("@sendgrid/mail");
+                sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+                const msg = {
+                    to: email,
+                    from: "arinak1017@gmail.com",
+                    subject: "Registration confirmation",
+                    html: `Hello, ${firstName} ${lastName}<br>
+                            <br>
+                            Welcome to RentAll Website!<br>
+                            <br>
+                            All the best,<br>
+                            Arina`
+                }
+                sgMail.send(msg)
+                    .then(() => {
+                        res.redirect(302, "/welcome");
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.render("general/sign-up", {
+                            title: "Sign-up Page",
+                            validationMessages,
+                            values: req.body
+                        });
+                    });
             })
             .catch(err => {
-                console.log(err);
+                console.log(`Error adding user to the database ... ${err}`);
                 res.render("general/sign-up", {
                     title: "Sign-up Page",
                     validationMessages,
