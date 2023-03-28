@@ -157,7 +157,7 @@ router.post("/log-in", (req, res) => {
                     }
                     // Reloading if validation is not passed
                     if(passedValidation) {
-                        if(role === "clerk"){
+                        if(req.session.isClerk){
                             res.redirect(302, "/rentals/list");
                         }
                         else {
@@ -194,7 +194,7 @@ router.post("/log-in", (req, res) => {
 })
 
 router.get("/cart", (req, res) => {
-    if(user && !isClerk){
+    if(req.session.user && !req.session.isClerk){
         res.render("general/cart", {
             title: "Cart Page"
         });

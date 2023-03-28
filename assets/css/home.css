@@ -269,7 +269,9 @@ form {
     margin: 0;
     padding-left: 2.5vw;
 }
-
+input[type="radio"] {
+    accent-color : var(--bg);
+}
 /* -- adding adaptivity with media queries -- */
 /**********************************************/
 @media (max-width: 576px) {

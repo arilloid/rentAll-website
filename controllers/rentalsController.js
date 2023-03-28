@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 })
 
 router.get("/list", (req, res) => {
-    if(user && isClerk){
+    if(req.session.user && req.session.isClerk){
         res.render("rentals/list", {
             title: "List Page"
         });
