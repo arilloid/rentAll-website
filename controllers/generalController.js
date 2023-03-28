@@ -127,7 +127,7 @@ router.get("/log-in", (req, res) => {
 // (POST) Route to a log-in page
 router.post("/log-in", (req, res) => {
     console.log(req.body)
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     // Validating the input
     let passedValidation = true;
     let validationMessages = {};
@@ -148,6 +148,7 @@ router.post("/log-in", (req, res) => {
                 .then(isMatched => {
                     if(isMatched) {
                         req.session.user = user;
+                        req.session.isClerk = (role === "clerk");
                     }
                     else {
                         console.log("Passwords do not match");
@@ -156,7 +157,12 @@ router.post("/log-in", (req, res) => {
                     }
                     // Reloading if validation is not passed
                     if(passedValidation) {
-                        res.redirect(302, "/cart");
+                        if(role === "clerk"){
+                            res.redirect(302, "/rentals/list");
+                        }
+                        else {
+                            res.redirect(302, "/cart");
+                        }
                     }
                     else {
                         res.render("general/log-in", {
@@ -188,9 +194,15 @@ router.post("/log-in", (req, res) => {
 })
 
 router.get("/cart", (req, res) => {
-    res.render("general/cart", {
-        title: "Cart Page"
-    });
+    if(user && !isClerk){
+        res.render("general/cart", {
+            title: "Cart Page"
+        });
+    }
+    else {
+        console.log("Access to cart page denied!")
+        res.redirect(302, "/");
+    }
 });
 
 router.get("/logout", (req, res) => {

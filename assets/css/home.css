@@ -30,7 +30,7 @@ li a {
     text-decoration: none;
     color: var(--br-light) !important;
 }
-li a:not(.name):hover {
+li a:hover {
     color: #724e33 !important;
 }
 .name {

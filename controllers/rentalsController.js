@@ -9,4 +9,16 @@ router.get("/", (req, res) => {
     });
 })
 
+router.get("/list", (req, res) => {
+    if(user && isClerk){
+        res.render("rentals/list", {
+            title: "List Page"
+        });
+    }
+    else {
+        console.log("Access to list page denied!")
+        res.redirect(302, "/");
+    }
+});
+
 module.exports = router;

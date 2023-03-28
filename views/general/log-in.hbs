@@ -22,6 +22,15 @@
                 {{#if validationMessages.auth}}
                 <h6><small>{{validationMessages.auth}}</small></h6>
                 {{/if}}
+                <div class="form-check form-check-inline mt-3">
+                    <input type="radio" class="form-check-input" name="role" id="customer" value="customer" checked>
+                    <label class="form-check-label" for="customer">Customer</label>
+                </div>
+                <div class="form-check  form-check-inline mt-3">
+                    <input type="radio" class="form-check-input" name="role" id="clerk" value="clerk">
+                    <label class="form-check-label" for="clerk">Clerk</label>
+                </div>
+                <br>
                 <button type="submit" class="btn m-3">Submit</button>
             </form>
     </div>
