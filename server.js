@@ -54,9 +54,11 @@ app.use((req, res, next) => {
 // Loading the controllers into express.
 const generalController = require("./controllers/generalController");
 const rentalsController = require("./controllers/rentalsController");
+const loadDataController = require("./controllers/loadDataController");
 
 app.use("/", generalController);
 app.use("/rentals", rentalsController);
+app.use("/load-data/rentals", loadDataController);
 
 // *** DO NOT MODIFY THE LINES BELOW ***
 

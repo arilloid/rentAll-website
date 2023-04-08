@@ -91,4 +91,6 @@ module.exports.getRentalsByCityAndProvince = function() {
     return rentalsByCityAndProvince;
 };
 
-
+module.exports.getAllRentals = function() {
+    return rentals;
+}

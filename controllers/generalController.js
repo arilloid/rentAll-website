@@ -194,7 +194,7 @@ router.post("/log-in", (req, res) => {
 })
 
 router.get("/cart", (req, res) => {
-    if(req.session.user && !req.session.isClerk){
+    if(req.session && req.session.user && !req.session.isClerk){
         res.render("general/cart", {
             title: "Cart Page"
         });
