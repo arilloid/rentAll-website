@@ -11,23 +11,39 @@ router.get("/", (req, res) => {
                     // There are no documents, proceed with the data load.
                     rentalModel.insertMany(rentalList.getAllRentals())
                     .then(() => {
-                        res.success("Success, data was loaded!");
+                        res.render("load-data/load-data", {
+                            title: "Load Data Page",
+                            message : "Success, rentals have been added to the database!"
+                        });
                     })
-                    .catch(() => {
-                        res.send("Couldn't insert the documents: " + err);
+                    .catch(err => {
+                        res.render("load-data/load-data", {
+                            title: "Load Data Page",
+                            message :  "Couldn't insert the documents: " + err
+                        });
                     })
                 }
                 else {
                     // There are already documents loaded, don't duplicate them.
+                    res.render("load-data/load-data", {
+                        title: "Load Data Page",
+                        message :  "Rentals have already been added to the database"
+                    });
                 }
             })
             .catch(err => {
-                res.send("Couldn't count the documents: " + err);
+                res.render("load-data/load-data", {
+                    title: "Load Data Page",
+                    message :  "Couldn't count the documents: " + err
+                });
             })
     }
     else {
         // Someone else is signed in they cannot load the data.
-        res.status(401).send("You are not authorized");
+        res.status(401).render("load-data/load-data", {
+            title: "Load Data Page",
+            message : "You are not authorized to add rentals"
+        });
     }
 })
 

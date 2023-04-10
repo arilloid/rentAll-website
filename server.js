@@ -14,6 +14,7 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 const session = require("express-session")
+const fileUpload = require('express-fileupload');
 
 // Setting up dotenv
 const dotenv = require("dotenv");
@@ -37,6 +38,9 @@ app.set("view engine", ".hbs");
 
 // Setting up body-parser
 app.use(express.urlencoded({extended: true}))
+
+// Setting up express-upload
+app.use(fileUpload());
 
 // Setting up express-session
 app.use(session({

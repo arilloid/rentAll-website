@@ -237,7 +237,6 @@ form {
 }
 .form {
     background-color: rgba(255, 255, 255, 0.75);
-    padding: 0 20vw;
     color: var(--bg);
     text-align: center;
 }
@@ -260,10 +259,14 @@ form {
     padding: 0.7vw 5vw;
     border-radius: 1vw;
 }
+.btn:hover {
+    background-color: #784f32;
+    color: white;
+}
 .btn:focus {
     box-shadow: 0 0 0 0.2rem var(--br-shadow);
 }
-.form h6 {
+.form h6 small {
     color: rgba(172, 29, 53, 0.767);
     text-align: left;
     margin: 0;
@@ -271,6 +274,9 @@ form {
 }
 input[type="radio"] {
     accent-color : var(--bg);
+}
+.sign, .log {
+    padding: 0 20vw;
 }
 /* -- adding adaptivity with media queries -- */
 /**********************************************/
@@ -307,11 +313,33 @@ input[type="radio"] {
     background-color: #694c3996;
 }
 
-/* -- cart page styling -- */
+/* -- cart and load-data page styling -- */
 /******************************/
-.cart, .list {
+.cart, .load {
     background-color: rgba(255, 255, 255, 0.505);
     text-align: center;
     color: var(--br-light);
     padding: 15vw 0;
 }
+
+/* -- list/add/edit/remove page styling -- */
+/******************************/
+.list {
+    background-color: rgba(255, 255, 255, 0.505);
+    text-align: center;
+    color: var(--br-light);
+}
+.btn-sm {
+    padding: 0.8vw 3vw;
+}
+.list .card, .remove .card{
+    transition: none !important;
+    transform: none !important;
+}
+.img-thumbnail {
+    height: 10vw;
+}
+.remove {
+    padding: 0 20vw;
+}
+

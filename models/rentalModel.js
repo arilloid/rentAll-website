@@ -29,10 +29,7 @@ const rentalSchema = new mongoose.Schema({
         type : String,
         require: true
     },
-    imageUrl: {
-        type : String,
-        require: true
-    },
+    imageUrl: String,
     featuredRental: {
         type : Boolean,
         default: false

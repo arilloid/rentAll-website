@@ -1,0 +1,30 @@
+<div class="row form">
+    <div class="col title mb-4">
+        <h3>{{action}} Rental</h3>
+    </div>
+</div>
+<div class="row remove form justify-content-center mb-5">
+    <form action="/rentals/remove/{{values._id}}" method="POST" enctype="multipart/form-data">
+        <div class="col-12 pl-5 pr-5">
+            <div class="row">
+                <div class="col mt-5">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="/images{{values.imageUrl}}" alt="property-image">
+                        <div class="card-body">
+                            <h5>{{values.headline}}, {{values.city}}, {{values.province}}</h5>
+                            <p>Sleeps {{values.numSleeps}} * {{values.numBedrooms}} BR * {{values.numBathrooms}} BA * {{values.pricePerNight}}$/night</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4 mb-5">
+                 <div class="col">
+                    <button type="submit" class="btn btn-block">{{action}}</button>
+                </div>
+                <div class="col">
+                    <a href="/rentals/list" class="btn btn-block">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

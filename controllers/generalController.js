@@ -1,13 +1,21 @@
+const rentalModel = require("../models/rentalModel");
 const userModel = require("../models/userModel");
 const express = require("express");
 const bcryptjs = require("bcryptjs");
 const router = express.Router();
-const rentalList = require("../models/rentals-db");
+//const rentalList = require("../models/rentals-db");
 
 router.get("/", (req, res) => {
-    res.render("general/home", {
-        rentals: rentalList.getFeaturedRentals(),
-        title: "Home Page"
+    rentalModel.find({ featuredRental: true })
+    .then(data => {
+        let rentals = data.map(value => value.toObject());
+        res.render("general/home", {
+            rentals: rentals,
+            title: "Home Page"
+        });
+    })
+    .catch((err) => {
+        console.log(`Error retrieving featured rentals ... ${err}`);
     });
 })
 router.get("/welcome", (req, res) => {
@@ -24,7 +32,7 @@ router.get("/sign-up", (req, res) => {
 })
 // (POST) Route to a sign-up page
 router.post("/sign-up", (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     const { firstName, lastName, email, password } = req.body;
     // Validating the input
     let passedValidation = true;
@@ -196,12 +204,12 @@ router.post("/log-in", (req, res) => {
 router.get("/cart", (req, res) => {
     if(req.session && req.session.user && !req.session.isClerk){
         res.render("general/cart", {
-            title: "Cart Page"
+            title: "Cart Page",
         });
     }
     else {
         console.log("Access to cart page denied!")
-        res.redirect(302, "/");
+        res.status(401).redirect(302, "/");
     }
 });
 

@@ -1,0 +1,81 @@
+<div class="row form">
+    <div class="col title mb-4">
+        <h3>{{action}} Rental</h3>
+    </div>
+</div>
+<div class="row form justify-content-center mb-5">
+    <form action="/rentals/edit/{{values._id}}" method="POST" enctype="multipart/form-data">
+        <div class="col-12 p-3">
+            <div class="row mb-3">
+                 <div class="col">
+                    <label for="headline" class="form-label">Headline</label>
+                    <input type="text" class="form-control" id="headline" name="headline" value="{{values.headline}}" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-2">
+                    <label for="numSleeps" class="form-label">Sleeps</label>
+                    <input type="number" class="form-control" id="numSleeps" name="numSleeps" min="0" max="100" placeholder="0" value="{{values.numSleeps}}" required>
+                </div>
+                 <div class="col-2">
+                    <label for="numBedrooms" class="form-label">Bedrooms</label>
+                    <input type="number" class="form-control" id="numBedrooms" name="numBedrooms" min="1" max="100" placeholder="0" value="{{values.numBedrooms}}" required>
+                </div>
+                <div class="col-2">
+                    <label for="numBathrooms" class="form-label">Bathrooms</label>
+                    <input type="number" class="form-control" id="numBathrooms" name="numBathrooms" min="1" max="100" placeholder="0" value="{{values.numBathrooms}}" required>
+                </div>
+                <div class="col-6">
+                    <label for="pricePerNight" class="form-label">Price per Night</label>
+                    <input type="number" step="any" class="form-control" id="pricePerNight" name="pricePerNight" min="0.01" placeholder="0.00" value="{{values.pricePerNight}}" required>
+                </div>
+            </div>
+            <div class="row mb-4">
+                 <div class="col-6">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" name="city" value="{{values.city}}" required>
+                </div>
+                <div class="col-3">
+                    <label for="province" class="form-label">Province</label>
+                    <input type="text" class="form-control" id="province" name="province" value="{{values.province}}" required>
+                </div>
+                <div class="col-3 form-check mt-4">
+                    <input type="checkbox" class="form-check-input" id="featuredRental" name="featuredRental" {{#if values.featuredRental}}checked{{/if}}>
+                    <label class="form-check-label" for="featuredRental">Featured</label>
+                </div>
+            </div>
+            <div class="row pl-1 mb-4">
+                <div class="col-4 pt-5">
+                    <h6>The property image:</h6>
+                </div>
+                <div class="col-8">
+                    <img src="/images{{values.imageUrl}}" class="img-thumbnail" alt="property-image">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5 mt-1">
+                    <label for="imageUrl" class="form-label">
+                        Update the property picture 
+                    </label>
+                </div>
+                <div class="col-7">
+                    <input type="file" class="form-control" id="imageUrl" name="imageUrl" accept=".jpg, .jpeg, .gif, .png">
+                </div>
+            </div>
+            {{#if validationMessage}}
+                <div class="mt-3">
+                    <h6><small>{{validationMessage}}</small></h6>
+                </div>
+            {{/if}}
+            <div class="row mt-4 mb-5">
+                 <div class="col">
+                    <button type="submit" class="btn btn-block">{{action}}</button>
+                </div>
+                <div class="col">
+                    <a href="/rentals/list" class="btn btn-block">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

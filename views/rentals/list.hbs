@@ -1,5 +1,26 @@
-<div class="row list">
-    <div class="col">
-        <h1>Welcome to the list page!</h1>
+<div class="row list p-5">
+    <div class="col-12 mb-4">
+        <div class="row">
+            <div class="col-12 col-lg-2 ml-5">
+                <h2>List Page |</h2>
+            </div>
+            <div class="col-12 col-lg-2">
+                <a href="/load-data/rentals" class="btn">Load Data</a>
+            </div>
+        </div>
     </div>
+    {{#each rentals}}
+        <div class="col-12 col-md-6 col-lg-4 mb-4 p-4">
+            <div class="row">
+                <div class="col">
+                    {{>rental}}
+                </div>
+            </div>
+            <div class="row btn-group mt-2">
+                <a href="/rentals/add" class="btn btn-sm">ADD</a>
+                <a href="/rentals/edit/{{_id}}" class="btn btn-sm">EDIT</a>
+                <a href="/rentals/remove/{{_id}}" class="btn btn-sm">REMOVE</a>
+            </div>
+        </div>
+    {{/each}}
 </div>
