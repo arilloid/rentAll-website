@@ -157,7 +157,7 @@ router.get("/edit/:id", (req, res) => {
     }
     else {
         console.log("Access to edit page denied!")
-        res.status(401).redirect(303, "/");
+        res.status(401).redirect(302, "/");
     }
 });
 

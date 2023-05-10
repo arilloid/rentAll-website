@@ -4,6 +4,7 @@
         "fileupload",
         "firstname",
         "lastname",
-        "sendgrid"
+        "sendgrid",
+        "xmark"
     ]
 }

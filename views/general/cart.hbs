@@ -1,5 +1,65 @@
-<div class="row cart">
-    <div class="col">
-        <h1>Welcome to the cart!</h1>
+{{#if hasRentals}}
+    <div class="row cart"></div>
+    <div class="row cart-list px-5 py-4">
+        <div class="col-12">
+            {{#each rentals}}
+                <div class="row m-4 cart-listing">
+                    <div class="col-lg-3 col-md-12 cart-img p-3"> 
+                        <img src="/images{{rental.imageUrl}}" class="img-fluid" alt="property-image">
+                    </div>
+                    <div class="col-lg-4 col-md-12 pt-5">
+                        <h6 class="mb-2">{{rental.headline}}, {{rental.city}}, {{rental.province}}</h6>
+                        <p>Sleeps {{rental.numSleeps}} * {{rental.numBedrooms}} BR * {{rental.numBathrooms}} BA * {{rental.pricePerNight}}$/night</p> 
+                    </div> 
+                    <div class="col-lg-3 col-md-8 pt-5">
+                        <div class="row">
+                                <h6 class="pl-3">Number of nights:</h6>
+                        </div>
+                        <form action="/update-rental/{{rental._id}}" method="post" class="update">
+                            <div class="row g-2 align-items-center pt-2">
+                                <div class="col-6">
+                                    <input type="number" name="numOfNights" value="{{numOfNights}}" class="form-control form-control-sm" min="1">
+                                </div>
+                                <div class="col-6 btn-group">
+                                    <button type="submit" class="btn btn-sm"><i class="fa fa-check"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-2 col-md-4 pt-5 remove-rental">
+                        <a href="/remove-rental/{{rental._id}}" class="btn py-2"><i class="fa fa-xmark fa-4x"></i></a>
+                    </div>        
+                </div>
+            {{/each}}
+        </div>
     </div>
-</div>
+    <div class="row cart-bottom px-5 pb-5">
+        <div class="col-lg-7 col-md-12 pt-3 totals">
+            <div class="row">
+                <div class="col-4">
+                    <h5>Subtotal: {{cartTotal}}</h5>
+                </div>
+                <div class="col-4">
+                    <h5>VAT: {{VAT}}</h5>
+                </div>
+                <div class="col-4">
+                    <h5>Total: {{grandTotal}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-5">
+            <a href="/rentals" class="btn py-3 px-5 explore">Explore more rentals</a>
+        </div>
+        <div class="col-lg-2 col-md-3">
+            <a href="/check-out" class="btn py-3">Book</a>
+        </div>
+    </div>
+{{else}}
+    <div class="row empty-cart">
+        <div class="col-12">
+            <i class="fa fa-cart-shopping fa-9x mb-3"></i>
+            <h5>Your cart is empty...</h5>
+            <a href="/rentals" class="btn px-5 explore mt-3">Explore more rentals</a>
+        </div>
+    </div>
+{{/if}}

@@ -2,7 +2,11 @@
     <img class="card-img-top" src="/images{{imageUrl}}" alt="property-image">
     <div class="card-body">
         <h5>{{headline}}, {{city}}, {{province}}</h5>
-        <p>Sleeps {{numSleeps}} * {{numBedrooms}} BR * {{numBathrooms}} BA * {{pricePerNight}}$/night</p>
+        <p>Sleeps {{numSleeps}} * {{numBedrooms}} BR * {{numBathrooms}} BA * {{pricePerNight}}$/night</p> 
+        {{#if isCustomer}}
+            <a href="/reserve/{{_id}}" class="btn w-100">Rent</a>
+        {{/if}}
     </div>
 </div>
+
     

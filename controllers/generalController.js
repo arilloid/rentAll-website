@@ -3,7 +3,6 @@ const userModel = require("../models/userModel");
 const express = require("express");
 const bcryptjs = require("bcryptjs");
 const router = express.Router();
-//const rentalList = require("../models/rentals-db");
 
 router.get("/", (req, res) => {
     rentalModel.find({ featuredRental: true })
@@ -84,13 +83,13 @@ router.post("/sign-up", (req, res) => {
                         const msg = {
                             to: email,
                             from: "arinak1017@gmail.com",
-                            subject: "Registration confirmation",
+                            subject: "RentAll - Registration confirmation",
                             html: `Hello, ${firstName} ${lastName}<br>
                                     <br>
                                     Welcome to RentAll Website!<br>
                                     <br>
                                     All the best,<br>
-                                    Arina`
+                                    RentAll Team`
                         }
                         sgMail.send(msg)
                             .then(() => {
@@ -157,6 +156,7 @@ router.post("/log-in", (req, res) => {
                     if(isMatched) {
                         req.session.user = user;
                         req.session.isClerk = (role === "clerk");
+                        req.session.isCustomer = (role === "customer");
                     }
                     else {
                         console.log("Passwords do not match");
@@ -168,7 +168,7 @@ router.post("/log-in", (req, res) => {
                         if(req.session.isClerk){
                             res.redirect(302, "/rentals/list");
                         }
-                        else {
+                        else if(req.session.isCustomer){
                             res.redirect(302, "/cart");
                         }
                     }
@@ -202,13 +202,158 @@ router.post("/log-in", (req, res) => {
 })
 
 router.get("/cart", (req, res) => {
-    if(req.session && req.session.user && !req.session.isClerk){
-        res.render("general/cart", {
-            title: "Cart Page",
+    if(req.session && req.session.user && req.session.isCustomer){
+        res.render("general/cart", prepareViewModel(req));
+    }
+    else {
+        console.log("Access to cart page denied!");
+        res.status(401).redirect(302, "/");
+    }
+});
+
+const prepareViewModel = function (req) {
+    if (req.session && req.session.user && req.session.isCustomer) {
+        // The user is signed in and has a session established.
+        let cart = req.session.cart || [];
+        // Used to store how much is owed.
+        let cartTotal = 0;
+        let VAT = 0;
+        let grandTotal = 0;
+        // Check if the cart has any songs.
+        const hasRentals = cart.length > 0;
+        // If there are songs in the cart, then calculate the order total.
+        if (hasRentals) {
+            cart.forEach(cartRental => {
+                cartTotal += cartRental.rental.pricePerNight * cartRental.numOfNights;
+            });
+            VAT = cartTotal * 0.1;
+            grandTotal = cartTotal + VAT;
+        }
+        return {
+            hasRentals,
+            rentals: cart,
+            cartTotal: "$" + cartTotal.toFixed(2),
+            VAT: "$" + VAT.toFixed(2),
+            grandTotal: "$" + grandTotal.toFixed(2)
+        };
+    }
+};
+
+router.get("/reserve/:id", (req, res) => {
+    if (req.session && req.session.user && req.session.isCustomer) {
+        let cart = req.session.cart = req.session.cart || [];
+        rentalModel.findOne({
+            _id: req.params.id
+        })
+        .then(rental => {
+            rental.toObject();
+            let found = false;
+            cart.forEach(cartRental => {
+                if (cartRental.rental._id == rental._id) {
+                    found = true;
+                }
+            });
+            if (!found) {
+                cart.push({
+                    numOfNights: 1,
+                    rental
+                });
+            }
+            else {
+                console.log("already added to cart");
+            }
+            res.redirect(302, "/cart");
+        })
+        .catch(err => {
+            console.log(`Error finding the rental in the database ... ${err}`);
         });
     }
     else {
-        console.log("Access to cart page denied!")
+        console.log("Access to route denied!");
+        res.status(401).redirect(302, "/");
+    }
+});
+
+router.get("/remove-rental/:id", (req, res) => {
+    if (req.session && req.session.user && req.session.isCustomer) {
+        // The user is signed in.
+        let cart = req.session.cart || [];
+        // Find the index of the song in the shopping cart.
+        const index = cart.findIndex(cartRental => cartRental.rental._id == req.params.id);
+        if (index >= 0) {
+            cart.splice(index, 1);
+        }
+        else {
+            console.log(`Error finding the rental in the cart`);
+        }
+        res.redirect(302, "/cart");
+    }
+    else {
+        console.log("Access to route denied!");
+        res.status(401).redirect(302, "/");
+    }
+});
+
+router.post("/update-rental/:id", (req, res) => {
+    if (req.session && req.session.user && req.session.isCustomer) {
+        // The user is signed in.
+        let cart = req.session.cart || [];
+        const rentalId = req.params.id;
+        const numOfNights = parseInt(req.body.numOfNights);
+        const index = cart.findIndex(cartRental => cartRental.rental._id == rentalId);
+        if (index >= 0) {
+            cart[index].numOfNights = numOfNights;
+        }
+        else {
+            console.log(`Error finding the rental in the cart`);
+        }
+        res.redirect(302, "/cart");
+    }
+    else {
+        console.log("Access to route denied!");
+        res.status(401).redirect(302, "/");
+    }
+});
+
+// Route to checkout the user.
+router.get("/check-out", (req, res) => {
+    // Check if the user is signed in.
+    if (req.session.user && req.session.user && req.session.isCustomer) {
+        // The user is already signed in.
+        const email = req.session.user.email;
+        let cart = req.session.cart || [];
+        if (cart.length > 0) {
+            const sgMail = require("@sendgrid/mail");
+            sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+            const msg = {
+                to: email,
+                from: "arinak1017@gmail.com",
+                subject: "RentAll - Order Processing.",
+                html: `Hello,<br>
+                        <br>
+                        We are currently processing your order!<br>
+                        We'll contact you about the order status in 1-2 business days.<br>
+                        <br>
+                        All the best,<br>
+                        RentAll Team`
+            }
+            sgMail.send(msg)
+                .then(() => {
+                    req.session.cart = [];
+                    console.log("Order confirmation email sent!");
+                    res.redirect(302, "/cart");
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.redirect(302, "/cart");
+                });
+        }
+        else {
+            console.log("The cart is empty!");
+        }
+    }
+    else {
+        console.log("Access to route denied!");
         res.status(401).redirect(302, "/");
     }
 });
@@ -216,7 +361,6 @@ router.get("/cart", (req, res) => {
 router.get("/logout", (req, res) => {
     // Clearing the session from memory.
     req.session.destroy();
-
     res.redirect(302, "/log-in");
 });
 

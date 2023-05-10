@@ -52,6 +52,7 @@ app.use(session({
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
     res.locals.isClerk = req.session.isClerk;
+    res.locals.isCustomer = req.session.isCustomer;
     next();
 });
 

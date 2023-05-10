@@ -48,10 +48,6 @@ i:hover {
     border-color:var(--br-light);
     border-radius: 1vw;
     overflow: hidden;
-    transition: 1s ease;
-}
-.card:hover {
-    transform: scale(1.03);
 }
 .card h5 {
     overflow: hidden;
@@ -127,9 +123,6 @@ a.nav-link {
 /*************************/
 .content .card {
     border-radius: 2.5vw;
-}
-.content .card:hover {
-    transform: none;
 }
 .content .card  img {
     max-width: 10vw;
@@ -228,7 +221,7 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
     transition: background-color 5000s ease-in-out 0s;
 }
-form {
+.form form {
     border: 1px solid var(--bg);
     background-color: #97643f1c;
     border-radius: 2.5vw;
@@ -313,9 +306,9 @@ input[type="radio"] {
     background-color: #694c3996;
 }
 
-/* -- cart and load-data page styling -- */
-/******************************/
-.cart, .load {
+/* -- load-data page styling -- */
+/********************************/
+.load {
     background-color: rgba(255, 255, 255, 0.505);
     text-align: center;
     color: var(--br-light);
@@ -323,18 +316,14 @@ input[type="radio"] {
 }
 
 /* -- list/add/edit/remove page styling -- */
-/******************************/
+/*******************************************/
 .list {
     background-color: rgba(255, 255, 255, 0.505);
     text-align: center;
     color: var(--br-light);
 }
 .btn-sm {
-    padding: 0.8vw 3vw;
-}
-.list .card, .remove .card{
-    transition: none !important;
-    transform: none !important;
+    padding: 0.8vw 2.9vw;
 }
 .img-thumbnail {
     height: 10vw;
@@ -342,4 +331,56 @@ input[type="radio"] {
 .remove {
     padding: 0 20vw;
 }
+input[type="file" i] {
+    height: 3.3vw;
+}
 
+/* -- cart page styling -- */
+/***************************/
+.cart, .cart-bottom {
+    background-color: rgba(255, 255, 255, 0.505);
+    color: #97643fe5;
+    padding: 2vw 2vw 1vw;
+}
+.cart-list, .empty-cart {
+    background-color: rgba(255, 255, 255, 0.829);
+}
+.empty-cart {
+    padding: 10vw 3vw;
+    color: #97643fe5;
+
+}
+.update {
+    padding: 0
+}
+.cart-listing {
+    background-color: white;
+    border-radius: 2vw;
+    border: 1px solid #97643f53;;
+}
+.fa-check {
+    color: white !important;
+}
+.fa-xmark {
+    color: #97643f8b;
+}
+.remove-rental .btn {
+    background-color: transparent;
+    padding : 0;  
+    margin-left: 4.5vw;
+}
+.cart-img {
+    padding: 0;
+}
+.img-fluid {
+    border-radius: 2vw;
+}
+.totals {
+    color:  var(--br-light);
+}
+i.fa-cart-shopping:hover {
+    color:  var(--br-light);
+}
+.empty-cart .col-12 {
+    text-align: center;
+}
