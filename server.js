@@ -1,19 +1,9 @@
-/*************************************************************************************
-* WEB322 - 2231 Project
-* I declare that this assignment is my own work in accordance with the Seneca Academic
-* Policy. No part of this assignment has been copied manually or electronically from
-* any other source (including web sites) or distributed to other students.
-*
-* Student Name  : Arina Kolodeznikova
-* Student ID    : 145924213
-* Course/Section: WEB322 NCC
-**************************************************************************************/
-
 const path = require("path");
 const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
-const session = require("express-session")
+const session = require("express-session");
+const MongoDBStore = require('connect-mongodb-session')(session);
 const fileUpload = require('express-fileupload');
 
 // Setting up dotenv
@@ -43,10 +33,19 @@ app.use(express.urlencoded({extended: true}))
 app.use(fileUpload());
 
 // Setting up express-session
+const sessionStore = new MongoDBStore({
+    uri: process.env.MONGO_CONN_STRING,
+    collection: 'mySessions'
+  });
+
 app.use(session({
     secret : process.env.SESSION_SECRET,
-    resave : false,
-    saveUninitialized: true
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+      },
+      store: sessionStore,
+      resave: true,
+      saveUninitialized: true
 }));
 
 app.use((req, res, next) => {
@@ -65,14 +64,7 @@ app.use("/", generalController);
 app.use("/rentals", rentalsController);
 app.use("/load-data/rentals", loadDataController);
 
-// *** DO NOT MODIFY THE LINES BELOW ***
-
-// This use() will not allow requests to go beyond it
-// so we place it at the end of the file, after the other routes.
-// This function will catch all other requests that don't match
-// any other route handlers declared before it.
-// This means we can use it as a sort of 'catch all' when no route match is found.
-// We use this function to handle 404 requests to pages that are not found.
+// Handling 404 requests to pages that are not found.
 app.use((req, res) => {
     res.status(404).send("Page Not Found");
 });
