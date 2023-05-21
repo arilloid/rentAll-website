@@ -1,13 +1,9 @@
-# WEB322 Project (Winter 2023)
+# RentAll Website
 
-I declare that this assignment is my own work in accordance with the Seneca Academic Policy.
-No part of this assignment has been copied manually or electronically from any other source
-(including web sites) or distributed to other students.
-
-Student Name  : Arina Kolodeznikova
-Student Email : akolodeznikova@myseneca.ca
-Course/Section: NCC
-
-## Project URLs
-GitHub Repo   : https://github.com/arilloid/web322-akolodeznikova
 Cyclic URL    : https://electric-blue-eagle-coat.cyclic.app/
+
+A responsive full-stack mockup rental company website with implemented user registration and authorization functionality, session handling, as well as the ability to browse the rentals, add them to the cart and manage the rentals listings (in case the user signs in as a data clerk). 
+
+# Tech Stack
+
+Built using: JavaScript, Express.js, Node.js, MongoDB
