@@ -6,4 +6,4 @@ A responsive full-stack mockup rental company website with implemented user regi
 
 # Tech Stack
 
-## Built using: JavaScript, Express.js, Node.js, MongoDB
+> Built using: JavaScript, Express.js, Node.js, MongoDB
